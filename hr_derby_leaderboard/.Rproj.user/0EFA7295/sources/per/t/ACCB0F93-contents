@@ -1,0 +1,129 @@
+library(ggplot2)
+library(dplyr)
+library(ggrepel)
+
+data <- read.csv("LWTSpitchers.csv")
+
+#all pitchers
+ggplot(data = data, aes(x = our.WAA, y = WAA)) + geom_point() + geom_text_repel(
+  data = filter(data, our.WAA > 4),
+  aes(our.WAA, WAA, label = Name), color = "red"
+)
+
+
+#qualified hitters PA > 300
+qualified <- data |> filter(BF > 200)
+ggplot(data = qualified, aes(x = our.WAA, y = WAA)) + geom_point()
+
+##
+ggplot(data = qualified, aes(x = BA, y = WAR)) + geom_point()
+
+
+# now from difference in actual WAR
+ggplot(data = qualified, aes(x = our.WAA, WAR)) + geom_point()
+
+#residual plot
+ggplot(data = qualified, aes(x = our.WAA, y = vs.actual.WAA)) + geom_point()
+
+#what about to rBat
+ggplot(data = qualified, aes(x = our.WAA, y = WAA)) + 
+  geom_point() + 
+  geom_smooth(method = "lm", se = FALSE, color = "red") + geom_text_repel(
+    data = filter(data, our.WAA > 4),
+    aes(our.WAA, WAA, label = Name), color = "red"
+  )
+# BAAAAAANG
+linfit <- lm(WAR ~ our.WAA, data = qualified)
+
+library(broom)
+library(ggrepel)
+
+# now augment( linear regression, data we want to calc)
+# finds the residuals for each team between our linear regression and expected values
+residuals <- augment(linfit, data = qualified)
+
+base_plot <- ggplot(residuals, aes(x = our.WAA, y = .resid)) + 
+  geom_point(alpha = .3) + 
+  geom_hline(yintercept = 0, linetype = 3) + 
+  xlab("our WAA") + ylab("Residual")
+
+base_plot
+
+# we can perform a root mean square error to find the avg size of errors
+resid_summary <- residuals |> 
+  summarize(
+    N = n(),
+    avg = mean(.resid),
+    RMSE = sqrt((mean(.resid^2)))
+  )
+resid_summary
+
+# pull the RMSE column out of the summary of RMSE
+rmse <- resid_summary |>  pull(RMSE)
+
+# The RMSE is the avg error of the residuals ie the model
+
+residuals |> 
+  summarize(
+    N = n(), 
+    within_one = sum(abs(.resid) < rmse),
+    within_two = sum(abs(.resid) < 2 * rmse)
+  ) |> 
+  mutate(
+    within_one_pct = within_one / N,
+    within_two_pct = within_two / N
+  )
+
+# THIS SHIT WORKS LFG WE JUST CALCULATED THE RBAT COMPONENT FOR WAA FOR THE 2023 SEASON
+
+#################
+
+
+
+# adjusting OBP weight from 1.58 to 1.8 to see if correlation is higher
+qualified <- qualified |> mutate(adjOPS = ((1.8*OBP + SLG -(.320*1.8 + .414)) *.027* PA ) )
+ggplot(data = qualified, aes(x = adjOPS, y = WAA)) + geom_point()
+
+#now this to Rbat?
+ggplot(data = qualified, aes(x = adjOPS, y = Rbat)) + geom_point()
+
+linfit2 <- lm(Rbat ~ adjOPS, data = qualified)
+
+
+# now augment( linear regression, data we want to calc)
+# finds the residuals for each team between our linear regression and expected values
+residuals2 <- augment(linfit2, data = qualified)
+
+base_plot2 <- ggplot(residuals, aes(x = adjOPS, y = .resid)) + 
+  geom_point(alpha = .3) + 
+  geom_hline(yintercept = 0, linetype = 3) + 
+  xlab("our WAA") + ylab("Residual")
+
+base_plot2
+
+# we can perform a root mean square error to find the avg size of errors
+resid_summary2 <- residuals |> 
+  summarize(
+    N = n(),
+    avg = mean(.resid),
+    RMSE = sqrt((mean(.resid^2)))
+  )
+resid_summary2
+
+# pull the RMSE column out of the summary of RMSE
+rmse2 <- resid_summary2 |>  pull(RMSE)
+
+# The RMSE is the avg error of the residuals ie the model
+
+residuals2 |> 
+  summarize(
+    N = n(), 
+    within_one = sum(abs(.resid) < rmse),
+    within_two = sum(abs(.resid) < 2 * rmse)
+  ) |> 
+  mutate(
+    within_one_pct = within_one / N,
+    within_two_pct = within_two / N
+  )
+
+

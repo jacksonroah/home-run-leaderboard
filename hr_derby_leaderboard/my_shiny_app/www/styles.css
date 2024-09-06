@@ -1,0 +1,89 @@
+/* General styling */
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #f8f9fa; /* Light gray background */
+}
+
+.team-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+}
+
+.team-table th,
+.team-table td {
+  border: 1px solid #dddddd;
+  padding: 8px;
+  text-align: center;
+}
+
+/* Comment out or remove this to avoid interference */
+/* .table th {
+  background-color: #4CAF50;
+  color: white;
+} */
+
+/* Highlight top 5 players based on team */
+.top-5 {
+  background-color: #ffffcc; /* Light yellow */
+}
+
+.bottom-2 {
+  background-color: #f0f0f0; /* Light grey */
+  color: #a0a0a0;
+}
+
+/* Styling for total rows */
+.total-row {
+  background-color: #e0e0e0;
+  font-weight: bold;
+  font-size: 1.1em;
+}
+
+.team-totals-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.team-totals-box {
+  flex: 1 1 calc(25% - 10px);
+  margin: 5px;
+  border: 1px solid #ddd;
+  padding: 10px;
+  background-color: #f9f9f9;
+}
+
+.team-total {
+  font-size: 1.2em;
+  font-weight: bold;
+  margin-top: 10px;
+  background-color: #e0e0e0;
+  padding: 10px;
+}
+
+.team-derek {
+  background-color: #E6C085 !important;
+}
+
+.team-jackson {
+  background-color: #008080 !important;
+}
+
+.team-tyler {
+  background-color: #5A3E9B !important;
+}
+
+.team-jason {
+  background-color: #8B0000 !important;
+}
+
+.dataTables_wrapper .dataTables_scrollHeadInner th {
+  text-align: center !important;
+}
+
+@media (max-width: 600px) {
+  .team-totals-box {
+    flex: 1 1 100%;
+  }
+}
