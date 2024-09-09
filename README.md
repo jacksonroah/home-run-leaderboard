@@ -8,7 +8,7 @@ This Shiny app provides a real-time dashboard for tracking home runs in a fantas
 - **Team Standings**: Displays current standings with custom styling for each team.
 - **Player Statistics**: Shows detailed home run stats for each player, highlighting top performers.
 - **Interactive Graph**: Visualizes cumulative home runs over time for each team.
-- **Responsive Design**: Adapts to different screen sizes for optimal viewing on various devices.
+- **Optimized Design for Mobile**: Targeted users only view website on mobile, so design is centered there
 
 ## Technologies Used
 - R
