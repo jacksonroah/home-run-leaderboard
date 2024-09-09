@@ -37,7 +37,7 @@ This Shiny app provides a real-time dashboard for tracking home runs in a fantas
 - Enhance mobile responsiveness for better small-screen experiences.
 
 ## Contact
-Your Name - [jackson@roah.com](mailto:jackson@roah.com)
+Jackson Roah - [jackson@roah.com](mailto:jackson@roah.com)
 
 
 Project Link: [https://jacksonroah.shinyapps.io/hr_derby_2024/](https://jacksonroah.shinyapps.io/hr_derby_2024/)
