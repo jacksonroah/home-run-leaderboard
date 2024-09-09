@@ -1,4 +1,5 @@
 # 2024 Home Run Derby Shiny App
+[https://jacksonroah.shinyapps.io/hr_derby_2024/](https://jacksonroah.shinyapps.io/hr_derby_2024/)
 
 ## Project Overview
 This Shiny app provides a real-time dashboard for tracking home runs in a fantasy baseball league's 2024 Home Run Derby. The app features live updates, team standings, player statistics, and a cumulative home run graph over time.
